@@ -1,12 +1,17 @@
-version: '3.1'
+version: '3.8'
 
 services:
-  mongo:
-    image: mongodb/atlas
-    privileged: true
-    command: |
-      /bin/bash -c "atlas deployments setup --type local --port 27778 --bindIpAll --username root --password {voxTaPqIcCC4QvwS} --force && tail -f /dev/null"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+  web:
+    build: .
     ports:
-      - 27778:27778
+      -8000:8000
+    environment:
+      - MONGO_URI=mongodb+srv://admin:voxTaPqIcCC4QvwS@fastapi.3wiu5mv.mongodb.net/?retryWrites=true&w=majority&appName=FastAPI
+    depends_on:
+      - db
+  db:
+  image: mongo:latest
+  environment:
+    -MONGO_INITDB_ROOT_USERNAME=admin
+    - MONGO_INITDB_ROOT_PASSWORD=voxTaPqIcCC4QvwS
+    - MONGO_INITDB_DATABASE=fastapi
