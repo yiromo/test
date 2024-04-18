@@ -1,6 +1,12 @@
+import os
 from pymongo import MongoClient
+from dotenv import load_dotenv
 
-client = MongoClient("mongodb+srv://admin:voxTaPqIcCC4QvwS@fastapi.3wiu5mv.mongodb.net/?retryWrites=true&w=majority&appName=FastAPI")
+load_dotenv()
+
+MONGO_ENV = os.getenv('MONGO_URI')
+
+client = MongoClient(MONGO_ENV)
 db = client.fastapi
 coll = db['bolesni']
 
